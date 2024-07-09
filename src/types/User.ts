@@ -1,6 +1,6 @@
 
-import { Comment } from "./comments";
-import { Rating } from "./Ratings";
+// import { Comment } from "./comments";
+// import { Rating } from "./Ratings";
 
 export interface User {
   id: string;
@@ -9,9 +9,9 @@ export interface User {
   phone: string;
   username: string;
   password: string;
-  comments: Comment[];
-  ratings: Rating[];
-  favoriteMovies: Movie[];
+  // comments: Comment[];
+  // ratings: Rating[];
+  // favoriteMovies: Movie[];
 }
 
 

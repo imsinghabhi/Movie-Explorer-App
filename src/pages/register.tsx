@@ -40,10 +40,11 @@ const RegisterForm: React.FC = () => {
     fetchUsers();
   }, [dispatch]);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
     setLoading(true);
-    const user: User = { id: uuidv4(), ...data, comments: [], favoriteMovies: [] ,ratings:[]};
-    await dispatch(addUser(user));
+    // const user: User = { id: uuidv4(), ...data, comments: [], favoriteMovies: [] ,ratings:[]};
+      const user: User = { id: uuidv4(), ...data};
+    dispatch(addUser(user));
     setLoading(false);
     reset();
     navigate('/login');
