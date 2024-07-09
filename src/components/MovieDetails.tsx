@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -66,10 +66,25 @@ const MovieDetails: React.FC = () => {
       setNewComment('');
     }
   };
+  
+  // useEffect(() => {
+  //   const loadPersistedData = async () => {
+  //     try {
+  //       const storedRatings = await localforage.getItem<Rating[]>('ratings');
+  //       if (storedRatings) {
+  //         dispatch(loadRatings(storedRatings));
+  //       }
+  //       const storedComments = await localforage.getItem<Comment[]>('comments');
+  //       if (storedComments) {
+  //         dispatch(loadComments(storedComments));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error loading persisted data:', error);
+  //     }
+  //   };
 
-  useEffect(() => {
-    // Load existing ratings and comments from localforage or backend
-  }, [dispatch]);
+  //   loadPersistedData();
+  // }, [dispatch]);
 
   if (!movie) {
     return <div style={{ color: 'white', textAlign: 'center' }}>Movie not found</div>;
