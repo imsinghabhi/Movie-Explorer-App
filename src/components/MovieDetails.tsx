@@ -1,5 +1,5 @@
 
-import React, { useState, } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -23,6 +23,9 @@ import { selectRatings,addRating } from '../features/movies/ratingsSlice';
 import { Movie } from '../types/Movie';
 import { Rating } from '../types/Ratings';
 import { Comment } from '../types/comments';
+import localforage from 'localforage';
+import { loadRatings, } from '../features/movies/ratingsSlice';
+import { loadComments } from '../features/movies/commentsSlice';
 
 const MovieDetails: React.FC = () => {
   const { imdbID } = useParams<{ imdbID: string }>();
@@ -43,7 +46,7 @@ const MovieDetails: React.FC = () => {
       const rating: Rating = {
         id: `${currentUser.id}-${movie.imdbID}`,
         userId: currentUser.id,
-        userName: currentUser.name,  // Set the user's name
+        userName: currentUser.name,  
         movieId: movie.imdbID,
         score: newRating,
         comment: '',
@@ -58,8 +61,8 @@ const MovieDetails: React.FC = () => {
       const comment: Comment = {
         id: `${currentUser.id}-${movie.imdbID}`,
         userId: currentUser.id,
-        userName: currentUser.name,  // Set the user's name
-        movieId: movie.imdbID,
+        userName: currentUser.name,
+        movieId: movie.imdbID, 
         text: newComment,
       };
       dispatch(addComment(comment));
@@ -67,24 +70,24 @@ const MovieDetails: React.FC = () => {
     }
   };
   
-  // useEffect(() => {
-  //   const loadPersistedData = async () => {
-  //     try {
-  //       const storedRatings = await localforage.getItem<Rating[]>('ratings');
-  //       if (storedRatings) {
-  //         dispatch(loadRatings(storedRatings));
-  //       }
-  //       const storedComments = await localforage.getItem<Comment[]>('comments');
-  //       if (storedComments) {
-  //         dispatch(loadComments(storedComments));
-  //       }
-  //     } catch (error) {
-  //       console.error('Error loading persisted data:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const loadPersistedData = async () => {
+      try {
+        const storedRatings = await localforage.getItem<Rating[]>('ratings');
+        if (storedRatings) {
+          dispatch(loadRatings(storedRatings));
+        }
+        const storedComments = await localforage.getItem<Comment[]>('comments');
+        if (storedComments) {
+          dispatch(loadComments(storedComments));
+        }
+      } catch (error) {
+        console.error('Error loading persisted data:', error);
+      }
+    };
 
-  //   loadPersistedData();
-  // }, [dispatch]);
+    loadPersistedData();
+  }, [dispatch]);
 
   if (!movie) {
     return <div style={{ color: 'white', textAlign: 'center' }}>Movie not found</div>;
