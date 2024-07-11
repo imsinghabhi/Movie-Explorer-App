@@ -1,56 +1,27 @@
-
-// import React from 'react';
-// import { useSelector } from 'react-redux';
-// import { selectFavoriteMovies } from '../features/movies/moviesSelectors';
-// import MovieCard from '../components/MovieCard';
-
-// const Favorites: React.FC = () => {
-//   const favoriteMovies = useSelector(selectFavoriteMovies);
-//   console.log(favoriteMovies,"fav")
-
-//   return (
-//     <div>
-//       {favoriteMovies.length > 0 ? (
-//         favoriteMovies.map((movie) => (
-//           <MovieCard key={movie.imdbID} movie={movie} />
-//         ))
-//       ) : (
-//         <p>No favorite movies yet.</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Favorites;
-
-
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectFavoriteMovies } from '../features/movies/moviesSelectors';
+import { Grid, Typography, Container } from '@mui/material';
+import { selectFavoriteMovies } from '../features/movies/userSlice';
 import MovieCard from '../components/MovieCard';
-import { selectIsLoggedIn } from '../features/movies/userSlice';
 
-const Favorites: React.FC = () => {
+const FavoriteMoviesPage: React.FC = () => {
   const favoriteMovies = useSelector(selectFavoriteMovies);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
-    <div>
-      {isLoggedIn ? (
-        <>
-          {favoriteMovies.length > 0 ? (
-            favoriteMovies.map((movie) => (
-              <MovieCard key={movie.imdbID} movie={movie} />
-            ))
-          ) : (
-            <p>No favorite movies yet.</p>
-          )}
-        </>
+    <Container sx={{ padding: '16px' }}>
+      {favoriteMovies.length === 0 ? (
+        <Typography variant="body1">You have no favorite movies.</Typography>
       ) : (
-        <p>Please log in to view your favorite movies.</p>
+        <Grid container spacing={3} style={{ marginLeft: '25px' }}>
+          {favoriteMovies.map((movie) => (
+            <Grid item key={movie.imdbID} >
+              <MovieCard movie={movie} />
+            </Grid>
+          ))}
+        </Grid>
       )}
-    </div>
+    </Container>
   );
 };
 
-export default Favorites;
+export default FavoriteMoviesPage;

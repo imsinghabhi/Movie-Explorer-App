@@ -246,8 +246,9 @@ import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Typography, Grid, Link } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../app/rootReducer';
+// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
+// import { RootState } from '../app/rootReducer';
 import { AppDispatch } from '../app/store';
 import { setCurrentUser, loadUsers, setError, clearError } from '../features/movies/userSlice';
 import localforage from 'localforage';
@@ -264,7 +265,6 @@ interface LoginFormData {
 const LoginForm: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { error, } = useSelector((state: RootState) => state.user);
   const { control, handleSubmit, reset, formState: { errors } } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
   });
@@ -292,7 +292,7 @@ const LoginForm: React.FC = () => {
         await localforage.setItem('currentUser', user); // Store current user in localforage
         dispatch(clearError());
         reset();
-        alert('Login successful!');
+      
         navigate('/');
       } else {
         dispatch(setError('Invalid username or password'));
@@ -302,12 +302,8 @@ const LoginForm: React.FC = () => {
 
   return (
     <Grid container spacing={2} justifyContent="center">
-      {error && (
-        <Grid item xs={12}>
-          <Typography color="error">{error}</Typography>
-          <Button onClick={() => dispatch(clearError())}>Clear Error</Button>
-        </Grid>
-      )}
+      
+      
       <Grid item xs={12} md={6}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>

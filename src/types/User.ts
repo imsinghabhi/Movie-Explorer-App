@@ -1,7 +1,7 @@
 
 // import { Comment } from "./comments";
 // import { Rating } from "./Ratings";
-
+import { Movie } from "./Movie";
 export interface User {
   id: string;
   name: string;
@@ -9,15 +9,8 @@ export interface User {
   phone: string;
   username: string;
   password: string;
-  // comments: Comment[];
-  // ratings: Rating[];
-  // favoriteMovies: Movie[];
+  favoriteMovies: Movie[];
 }
 
 
 
-export interface Movie {
-  imdbID: string;
-  title: string;
-  
-}

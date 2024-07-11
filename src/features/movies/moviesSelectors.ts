@@ -11,5 +11,5 @@ export const selectMovies = (state: RootState): Movie[] => {
     : movies;
 };
 
-export const selectFavoriteMovies = (state: RootState): Movie[] =>
-  state.movies.favoriteMovies;
+// export const selectFavoriteMovies = (state: RootState): Movie[] =>
+//   state.movies.favoriteMovies;

@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
           Home
         </Button>
         <Button color="inherit" component={NavLink} to="/favorites">
-          Favorite Movies
+         Favorite Movies
         </Button>
         {isLoggedIn ? (
           <Button color="inherit" onClick={handleLogout}>
