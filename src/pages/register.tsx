@@ -42,7 +42,7 @@ const RegisterForm: React.FC = () => {
 
   const onSubmit = (data: FormData) => {
     setLoading(true);
-    const user: User = { id: uuidv4(), ...data, favoriteMovies: [] };
+    const user: User[] = [{ id: uuidv4(), ...data, favoriteMovies: [] }];
    
     dispatch(addUser(user));
     setLoading(false);

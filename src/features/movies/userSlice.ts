@@ -658,8 +658,11 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addUser(state, action: PayloadAction<User>) {
-      const newUsers = [...state.users, action.payload];
+    addUser(state, action: PayloadAction<User[]>) {
+      if (!Array.isArray(state.users)) {
+        state.users = [];
+      }
+      const newUsers = [...state.users, ...action.payload];
       state.users = newUsers;
       localforage.setItem('users', newUsers).catch((error) => {
         state.error = `Error saving users: ${error.message}`;
@@ -718,8 +721,11 @@ const userSlice = createSlice({
           favoriteMovies: [...state.currentUser.favoriteMovies, action.payload],
         };
         state.currentUser = updatedUser;
-        localforage.setItem('currentUser', updatedUser).then(()=>localforage.setItem('users', updatedUser)).catch((error) => {
+        localforage.setItem('currentUser', updatedUser).then(()=>localforage.setItem('users',updatedUser)).catch((error) => {
           state.error = `Error saving favorite movie: ${error.message}`;
+        });
+        localforage.setItem('users', updatedUser).catch((error) => {
+          state.error = `Error saving users: ${error.message}`;
         });
       }
     },
@@ -734,6 +740,9 @@ const userSlice = createSlice({
         state.currentUser = updatedUser;
         localforage.setItem('currentUser', updatedUser).catch((error) => {
           state.error = `Error removing favorite movie: ${error.message}`;
+        });
+        localforage.setItem('users', state.users).catch((error) => {
+          state.error = `Error saving users: ${error.message}`;
         });
       }
     },
@@ -760,6 +769,7 @@ export const {
 
 export const selectCurrentUser = (state: RootState) => state.user.currentUser;
 export const selectIsLoggedIn = (state: RootState) => state.user.isLoggedIn;
-export const selectFavoriteMovies = (state: RootState) => state.user.currentUser?.favoriteMovies || [];
+export const selectFavoriteMovies = (state: RootState) =>
+  state.user.currentUser?.favoriteMovies || [];
 
 export default userSlice.reducer;
